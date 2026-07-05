@@ -17,7 +17,7 @@ For each of the entities, their relationships are as follows:
 
 **b. Design changes**
 
-As I was discussing with Claude Code and reviewing later phases, I decided to create 2 Mermaid diagrams. One representing the initial design direction (`uml_wip.mmd`) and when which will I will iterate on as I go through the project (`uml_initial.mmd`). The reason for this is that I identified that the methods for Owner and Scheduler need a specific return type to keep track of which pet each task belongs to. `detect_conflicts()` will also return a list of warning strings per Phase 4, Step 4.
+As I was discussing with Claude Code and reviewing later phases, I decided to create 2 Mermaid diagrams: one representing the initial design direction (`diagrams/uml_initial.mmd`), and one I kept iterating on as I went through the project (`diagrams/uml_wip.mmd`, renamed to `diagrams/uml_final.mmd` once the implementation was done in Phase 6). The reason for this is that I identified that the methods for Owner and Scheduler need a specific return type to keep track of which pet each task belongs to. `detect_conflicts()` will also return a list of warning strings per Phase 4, Step 4.
 
 ---
 
