@@ -4,8 +4,16 @@
 
 **a. Initial design**
 
-- Briefly describe your initial UML design.
-- What classes did you include, and what responsibilities did you assign to each?
+Given that a pet owner can have many pets, tasks, and a schedule associated with those tasks, I came up with the following classes:
+    - Task
+    - Pet
+    - Owner
+    - Scheduler
+
+For each of the entities, their relationships are as follows:
+    - An Owner can have many pets
+    - A Pet can have many tasks
+    - A Scheduler reads an Owner to determine its pets and tasks to sort and detect conflicts
 
 **b. Design changes**
 
