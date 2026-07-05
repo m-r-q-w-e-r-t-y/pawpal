@@ -84,10 +84,19 @@ st.subheader("Build Schedule")
 st.caption("This button should call your scheduling logic once you implement it.")
 
 if st.button("Generate schedule"):
-    tasks = owner.get_all_tasks()
-    if tasks:
-        st.write("Today's Schedule:")
-        for pet_obj, task in tasks:
-            st.write(f"{task.time} — {pet_obj.name}: {task.description} ({task.frequency})")
+    scheduler = Scheduler(owner)
+    sorted_tasks = scheduler.sort_by_time()
+
+    if sorted_tasks:
+        st.success("Today's Schedule (sorted by time):")
+        st.table(
+            [
+                {"time": task.time, "pet": pet_obj.name, "description": task.description, "frequency": task.frequency}
+                for pet_obj, task in sorted_tasks
+            ]
+        )
+
+        for warning in scheduler.detect_conflicts():
+            st.warning(warning)
     else:
         st.info("No tasks to schedule yet.")

@@ -37,13 +37,11 @@ Scheduler.detect_conflicts() only flags tasks that share the exact same time str
 
 **a. How you used AI**
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
-- What kinds of prompts or questions were most helpful?
+I went phase by phase instead of asking for the whole project at once — UML, then class skeletons, then logic, then algorithms, then tests, then docs. That kept each request scoped enough that I could actually check the output instead of just trusting it. The most useful prompts weren't "build X," they were "explain why this line works" — like asking why `field(default_factory=list)` is needed instead of `= []`, or what each piece of a Mermaid relationship arrow means. Understanding the syntax before typing it caught a couple of things I would've otherwise copy-pasted blindly.
 
 **b. Judgment and verification**
 
-- Describe one moment where you did not accept an AI suggestion as-is.
-- How did you evaluate or verify what the AI suggested?
+A few times. The clearest one: when wiring `app.py`, the AI rewrote way more than I asked for — it added an "Add Pet" button, a pet selector dropdown, a whole extra table, when all I wanted was the existing placeholders replaced with real method calls. I pushed back and had it redo it as a minimal diff instead. Separately, when it told me `detect_conflicts()` should return "a list of warning strings," I asked it to point to exactly where INSTRUCTIONS.md said that — turned out only "a warning message" (singular) was actually specified; the list part was its own reasonable extrapolation from the rubric's multi-pet requirement, not something dictated. I kept the list design because the reasoning held up, but I wanted to know the difference between "the assignment requires this" and "the AI decided this."
 
 ---
 
@@ -51,13 +49,11 @@ Scheduler.detect_conflicts() only flags tasks that share the exact same time str
 
 **a. What you tested**
 
-- What behaviors did you test?
-- Why were these tests important?
+Two categories: the basic class behaviors (marking a task complete, adding a task to a pet) and the two scheduling algorithms (sorting, conflict detection), including edge cases — an empty task list, and a case with no conflicts at all. The algorithm tests mattered most since that's where actual logic lives; the class tests are simple but they're what the assignment explicitly asked for first.
 
 **b. Confidence**
 
-- How confident are you that your scheduler works correctly?
-- What edge cases would you test next if you had more time?
+4/5. Everything I built is tested and passing, including the cross-pet conflict case, which is the part of the rubric I cared most about getting right. The gap is that conflict detection only checks for exact time matches, not overlapping durations — documented as a known tradeoff in section 2b, not an oversight. If I had more time I'd add a test with three or more overlapping tasks at once, since right now every conflict test only checks a pair.
 
 ---
 
@@ -65,12 +61,12 @@ Scheduler.detect_conflicts() only flags tasks that share the exact same time str
 
 **a. What went well**
 
-- What part of this project are you most satisfied with?
+The object model held up end to end — what I sketched in the UML on day one is still the same shape in the final code. No do-overs on `Owner`/`Pet`/`Task`/`Scheduler`, just refinements to return types as the design got more specific.
 
 **b. What you would improve**
 
-- If you had another iteration, what would you improve or redesign?
+My commit hygiene early on — a couple of times I let two or three steps of work pile up before committing, so I had to go back and do catch-up commits. Committing right after each step, every time, would've made the history read more naturally.
 
 **c. Key takeaway**
 
-- What is one important thing you learned about designing systems or working with AI on this project?
+Being the "lead architect" means the AI will happily move fast in a direction you didn't ask for if you let it — the value I added wasn't writing the code, it was constantly checking claims against the actual rubric and instructions instead of taking either the AI's or the assignment's word for it, and being willing to say "that's not what I asked for" when the scope crept.

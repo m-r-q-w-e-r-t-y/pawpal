@@ -17,10 +17,18 @@ Your job is to design the system first (UML), then implement the logic in Python
 Your final app should:
 
 - Let a user enter basic owner + pet info
-- Let a user add/edit tasks (duration + priority at minimum)
-- Generate a daily schedule/plan based on constraints and priorities
-- Display the plan clearly (and ideally explain the reasoning)
+- Let a user add tasks (description, time, and frequency at minimum)
+- Generate a daily schedule sorted by time, with conflict warnings
+- Display the plan clearly
 - Include tests for the most important scheduling behaviors
+
+## ✨ Features
+
+- **`Task`, `Pet`, `Owner`, `Scheduler`** classes modeling a pet owner with multiple pets, each with their own tasks
+- **Sorting** — `Scheduler.sort_by_time()` returns every task across all pets in chronological order
+- **Conflict detection** — `Scheduler.detect_conflicts()` flags any two tasks (same or different pets) scheduled at the same time
+- A Streamlit UI to add pets/tasks and generate a sorted schedule with conflict warnings
+- A `pytest` suite covering core class behavior and both scheduling algorithms
 
 ## Getting started
 
@@ -46,18 +54,14 @@ pip install -r requirements.txt
 
 ```bash
 > python main.py
-Today's tasks for Jordan:
-Mochi: Feeding at 09:00
-Mochi: Morning Walk at 11:00
-Biscut: Vet appointment at 14:30
-```
+Today's Schedule for Jordan:
+  09:00 — Mochi: Feeding (daily)
+  09:00 — Biscut: Grooming (once)
+  11:00 — Mochi: Morning Walk (daily)
+  14:30 — Biscut: Vet appointment (once)
 
-```
-# e.g.:
-# Daily plan for Biscuit (Golden Retriever):
-#   08:00 — Morning walk (30 min) [priority: high]
-#   09:00 — Feeding (10 min) [priority: high]
-#   ...
+Schedule Conflicts:
+  ⚠️ Conflict at 09:00: Mochi's 'Feeding' and Biscut's 'Grooming'
 ```
 
 ## 🧪 Testing PawPal+
@@ -105,12 +109,22 @@ tests/test_pawpal.py ......                                              [100%]
 
 ## 📸 Demo Walkthrough
 
-Describe your app in numbered steps so a reader can follow along without watching a video:
+1. Run `streamlit run app.py`. Enter an owner name, pet name, and species — a `Pet` is created and persisted via `st.session_state`.
+2. Add a task: enter a description, pick a time, and choose a frequency. Click "Add task" — this calls `pet.add_task()` and the task appears in the table below.
+3. Add a second task at the same time as an existing one, to see conflict detection in action later.
+4. Click "Generate schedule." This calls `Scheduler.sort_by_time()` and displays every task across all pets in chronological order via `st.table`.
+5. Any tasks sharing a time slot are flagged with `st.warning`, one per conflict, from `Scheduler.detect_conflicts()`.
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+Sample CLI output demonstrating the same sorting and conflict detection from `main.py`:
 
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+```bash
+> python main.py
+Today's Schedule for Jordan:
+  09:00 — Mochi: Feeding (daily)
+  09:00 — Biscut: Grooming (once)
+  11:00 — Mochi: Morning Walk (daily)
+  14:30 — Biscut: Vet appointment (once)
+
+Schedule Conflicts:
+  ⚠️ Conflict at 09:00: Mochi's 'Feeding' and Biscut's 'Grooming'
+```
