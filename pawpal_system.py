@@ -8,6 +8,7 @@ class Task:
     completed: bool
 
     def mark_complete(self) -> None:
+        """Mark the task as completed."""
         self.completed = True
 
 @dataclass
@@ -17,9 +18,11 @@ class Pet:
     tasks: list[Task]
 
     def add_task(self, task: Task) -> None:
+        """Add a task to the pet's list of tasks."""
         self.tasks.append(task)
 
     def list_tasks(self) -> list[Task]:
+        """Return all tasks belonging to this pet."""
         return self.tasks
 
 class Owner:
@@ -28,9 +31,11 @@ class Owner:
         self.pets = []
 
     def add_pet(self, pet: Pet) -> None:
+        """Add a pet to this owner's list of pets."""
         self.pets.append(pet)
 
     def get_all_tasks(self) -> list[tuple[Pet, Task]]:
+        """Return every (pet, task) pair across all of this owner's pets."""
         return [(pet, task) for pet in self.pets for task in pet.tasks]
 
 class Scheduler:
@@ -38,7 +43,9 @@ class Scheduler:
         self.owner = owner
 
     def sort_by_time(self) -> list[tuple[Pet, Task]]:
+        """Return all tasks across all pets, sorted chronologically by time."""
         pass
 
     def detect_conflicts(self) -> list[str]:
+        """Return warning messages for any tasks scheduled at the same time."""
         pass
