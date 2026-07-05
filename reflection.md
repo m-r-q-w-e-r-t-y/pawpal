@@ -25,13 +25,11 @@ As I was discussing with Claude Code and reviewing later phases, I decided to cr
 
 **a. Constraints and priorities**
 
-- What constraints does your scheduler consider (for example: time, priority, preferences)?
-- How did you decide which constraints mattered most?
+Our scheduler's primary constraint is task time — both sort_by_time() and detect_conflicts() are built entirely around comparing each task's "HH:MM" value. We didn't implement priority or duration as constraints, since neither was needed for the two algorithmic features we chose (sorting and conflict detection). Time was the most important constraint to handle first because it directly answers what a pet owner needs most immediately — knowing when something has to happen and whether two things collide.
 
 **b. Tradeoffs**
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
+Scheduler.detect_conflicts() only flags tasks that share the exact same time string (e.g., two tasks both at "09:00") rather than checking for overlapping time ranges. Since Task doesn't track a duration, there's no way to know how long a task actually occupies, so a real overlap check (e.g., a 9:00–9:30 walk conflicting with a 9:15 feeding) isn't possible with the current design. This is a reasonable simplification for this project's scope: it still catches the most obvious clashes using simple string equality, which is fast and trivial to test, while a true interval-overlap algorithm would require adding a duration field and comparing start/end ranges — more complexity than this scheduler needs.
 
 ---
 

@@ -82,10 +82,10 @@ Sample test output:
 
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `Scheduler.sort_by_time()` | Sorts all tasks across every pet chronologically using Python's `sorted()` with a lambda key on each task's `"HH:MM"` time string. |
+| Filtering | *Not implemented* | Not one of the two algorithmic features chosen for this project's required scope. |
+| Conflict handling | `Scheduler.detect_conflicts()` | Flags any two tasks — same or different pets — scheduled at the exact same time, returning human-readable warning strings instead of raising an error. |
+| Recurring tasks | *Not implemented* | Not one of the two algorithmic features chosen for this project's required scope. |
 
 ## 📸 Demo Walkthrough
 
