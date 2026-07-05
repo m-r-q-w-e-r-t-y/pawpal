@@ -44,7 +44,13 @@ pip install -r requirements.txt
 
 ## 🖥️ Sample Output
 
-Paste a sample of your app's CLI or Streamlit output here so a reader can see what a generated plan looks like:
+```bash
+> python main.py
+Today's tasks for Jordan:
+Mochi: Feeding at 09:00
+Mochi: Morning Walk at 11:00
+Biscut: Vet appointment at 14:30
+```
 
 ```
 # e.g.:
