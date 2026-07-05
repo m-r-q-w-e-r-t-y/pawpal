@@ -1,4 +1,4 @@
-from pawpal_system import Owner, Pet, Task
+from pawpal_system import Owner, Pet, Task, Scheduler
 
 def main():
     owner = Owner("Jordan")
@@ -11,17 +11,26 @@ def main():
 
     mochi.add_task(
         Task(
-            "Feeding",
-            "09:00",
+            "Morning Walk",
+            "11:00",
             "daily",
             False
         )
     )
     mochi.add_task(
         Task(
-            "Morning Walk",
-            "11:00",
+            "Feeding",
+            "09:00",
             "daily",
+            False
+        )
+    )
+
+    biscut.add_task(
+        Task(
+            "Grooming",
+            "09:00",
+            "once",
             False
         )
     )
@@ -35,9 +44,17 @@ def main():
         )
     )
 
-    print(f"Today's tasks for {owner.name}:")
-    for pet, task in owner.get_all_tasks():
-        print(f"{pet.name}: {task.description} at {task.time}")
+    scheduler = Scheduler(owner)
+
+    print(f"Today's Schedule for {owner.name}:")
+    for pet, task in scheduler.sort_by_time():
+        print(f"  {task.time} — {pet.name}: {task.description} ({task.frequency})")
+
+    conflicts = scheduler.detect_conflicts()
+    if conflicts:
+        print("\nSchedule Conflicts:")
+        for warning in conflicts:
+            print(f"  {warning}")
 
 if __name__ == "__main__":
     main()

@@ -44,8 +44,19 @@ class Scheduler:
 
     def sort_by_time(self) -> list[tuple[Pet, Task]]:
         """Return all tasks across all pets, sorted chronologically by time."""
-        pass
+        return sorted(self.owner.get_all_tasks(), key=lambda x: x[1].time)
 
     def detect_conflicts(self) -> list[str]:
         """Return warning messages for any tasks scheduled at the same time."""
-        pass
+        warnings = []
+        tasks = self.owner.get_all_tasks()
+        for i in range(len(tasks)):
+            for j in range(i + 1, len(tasks)):
+                pet_a, task_a = tasks[i]
+                pet_b, task_b = tasks[j]
+                if task_a.time == task_b.time:
+                    warnings.append(
+                        f"⚠️ Conflict at {task_a.time}: {pet_a.name}'s '{task_a.description}' "
+                        f"and {pet_b.name}'s '{task_b.description}'"
+                    )
+        return warnings
