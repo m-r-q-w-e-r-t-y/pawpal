@@ -8,7 +8,7 @@ class Task:
     completed: bool
 
     def mark_complete(self) -> None:
-        pass
+        self.completed = True
 
 @dataclass
 class Pet:
@@ -17,10 +17,10 @@ class Pet:
     tasks: list[Task]
 
     def add_task(self, task: Task) -> None:
-        pass
+        self.tasks.append(task)
 
     def list_tasks(self) -> list[Task]:
-        pass
+        return self.tasks
 
 class Owner:
     def __init__(self, name: str):
@@ -28,10 +28,10 @@ class Owner:
         self.pets = []
 
     def add_pet(self, pet: Pet) -> None:
-        pass
+        self.pets.append(pet)
 
     def get_all_tasks(self) -> list[tuple[Pet, Task]]:
-        pass
+        return [(pet, task) for pet in self.pets for task in pet.tasks]
 
 class Scheduler:
     def __init__(self, owner: Owner):
