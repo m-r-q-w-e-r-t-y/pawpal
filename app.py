@@ -49,28 +49,32 @@ if "owner" not in st.session_state:
 
 owner = st.session_state.owner
 
+if "pet" not in st.session_state:
+    new_pet = Pet(name=pet_name, species=species, tasks=[])
+    owner.add_pet(new_pet)
+    st.session_state.pet = new_pet
+
+pet = st.session_state.pet
+
 st.markdown("### Tasks")
 st.caption("Add a few tasks. In your final version, these should feed into your scheduler.")
-
-if "tasks" not in st.session_state:
-    st.session_state.tasks = []
 
 col1, col2, col3 = st.columns(3)
 with col1:
     task_title = st.text_input("Task title", value="Morning walk")
 with col2:
-    duration = st.number_input("Duration (minutes)", min_value=1, max_value=240, value=20)
+    task_time = st.time_input("Time")
 with col3:
-    priority = st.selectbox("Priority", ["low", "medium", "high"], index=2)
+    frequency = st.selectbox("Frequency", ["once", "daily", "weekly"])
 
 if st.button("Add task"):
-    st.session_state.tasks.append(
-        {"title": task_title, "duration_minutes": int(duration), "priority": priority}
+    pet.add_task(
+        Task(description=task_title, time=task_time.strftime("%H:%M"), frequency=frequency, completed=False)
     )
 
-if st.session_state.tasks:
+if pet.list_tasks():
     st.write("Current tasks:")
-    st.table(st.session_state.tasks)
+    st.table([{"description": t.description, "time": t.time, "frequency": t.frequency} for t in pet.list_tasks()])
 else:
     st.info("No tasks yet. Add one above.")
 
@@ -80,15 +84,10 @@ st.subheader("Build Schedule")
 st.caption("This button should call your scheduling logic once you implement it.")
 
 if st.button("Generate schedule"):
-    st.warning(
-        "Not implemented yet. Next step: create your scheduling logic (classes/functions) and call it here."
-    )
-    st.markdown(
-        """
-Suggested approach:
-1. Design your UML (draft).
-2. Create class stubs (no logic).
-3. Implement scheduling behavior.
-4. Connect your scheduler here and display results.
-"""
-    )
+    tasks = owner.get_all_tasks()
+    if tasks:
+        st.write("Today's Schedule:")
+        for pet_obj, task in tasks:
+            st.write(f"{task.time} — {pet_obj.name}: {task.description} ({task.frequency})")
+    else:
+        st.info("No tasks to schedule yet.")
