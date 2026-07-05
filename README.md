@@ -62,19 +62,35 @@ Biscut: Vet appointment at 14:30
 
 ## 🧪 Testing PawPal+
 
-```bash
-# Run the full test suite:
-pytest
+Run the test suite with:
 
-# Run with coverage:
-pytest --cov
+```bash
+python -m pytest
 ```
+
+The suite (`tests/test_pawpal.py`) covers six behaviors:
+- Marking a task complete updates its status
+- Adding a task increases a pet's task count
+- `Scheduler.sort_by_time()` returns tasks in chronological order regardless of insertion order
+- `Scheduler.sort_by_time()` returns an empty list when there are no tasks
+- `Scheduler.detect_conflicts()` flags two tasks scheduled at the same time across different pets
+- `Scheduler.detect_conflicts()` returns an empty list when no tasks overlap
 
 Sample test output:
 
 ```
-# Paste your pytest output here
+(.venv) ➜  ai110-module2show-pawpal-starter git:(main) python -m pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/macbookair/Documents/ai110-module2show-pawpal-starter
+collected 6 items
+
+tests/test_pawpal.py ......                                              [100%]
+
+============================== 6 passed in 0.01s ===============================
 ```
+
+**Confidence Level:** ⭐⭐⭐⭐☆ (4/5) — all core class behaviors and both scheduling algorithms are verified with passing tests, including edge cases (no tasks, no conflicts). The one gap: `detect_conflicts()` is only tested for exact-time matches, consistent with the tradeoff documented in `reflection.md` section 2b — it doesn't cover overlapping durations, since `Task` has no duration field.
 
 ## 📐 Smarter Scheduling
 
